@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Raw Bitmap Editor</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <h1>Raw Bitmap Editor</h1>
+    <div class="container">
+        <div class="control-panel">
+            <div class="config-group">
+                <label>キャンバスサイズ</label>
+                <div class="size-inputs">
+                    <input type="number" id="widthInput" value="16" min="1" max="128">
+                    <input type="number" id="heightInput" value="16" min="1" max="128">
+                </div>
+
+                <label for="colorMode">カラーモード</label>
+                <select id="colorMode">
+                    <option value="full">フルカラー</option>
+                    <option value="mono">モノクローム (1bit)</option>
+                </select>
+
+                <button id="btnNew">新規作成 / サイズ変更</button>
+            </div>
+
+            <div class="config-group">
+                <div class="palette-header">
+                    <label>カラーパレット</label>
+                </div>
+                <div class="palette-tip">左: 前景 / 右: 背景 / 抜: 編集</div>
+                <div id="palette" class="palette-container"></div>
+                <input type="color" id="hiddenColorPicker" class="color-picker-hidden">
+            </div>
+
+            <div class="status-group">
+                <label>選択中の色</label>
+                <div class="color-indicator-container">
+                    <div class="indicator-box">
+                        前景 (左)
+                        <div id="fgIndicator" class="color-preview"></div>
+                    </div>
+                    <div class="indicator-box">
+                        背景 (右)
+                        <div id="bgIndicator" class="color-preview"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-editor-zone">
+            <div class="top-bar-container">
+                <div class="zoom-bar-container">
+                    <label for="zoomRange">ズーム倍率:</label>
+                    <input type="range" id="zoomRange" min="1" max="50" value="10">
+                    <span id="zoomValue">10x</span>
+                </div>
+                <div class="tool-selector-container">
+                    <label class="tool-label">
+                        <input type="radio" name="currentTool" value="pencil" checked> 鉛筆
+                    </label>
+                    <label class="tool-label">
+                        <input type="radio" name="currentTool" value="line"> 直線
+                    </label>
+                    <label class="tool-label">
+                        <input type="radio" name="currentTool" value="floodfill"> 塗り潰し
+                    </label>
+                </div>
+            </div>
+            <div class="canvas-area">
+                <div class="canvas-background">
+                    <canvas id="paintCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-sidebar">
+            <div class="save-group">
+                <label>プレビュー</label>
+                <div class="global-preview-container">
+                    <div class="preview-background">
+                        <canvas id="realSizePreview"></canvas>
+                    </div>
+                </div>
+
+                <label>カーソル座標</label>
+                <div id="coordsIndicator" class="coords-indicator">X: --, Y: --</div>
+            </div>
+
+            <div class="save-group">
+                <label for="saveFormat">出力フォーマット</label>
+                <select id="saveFormat">
+                    <option value="png" selected>PNG 画像</option>
+                    <option value="bmp">BMP (1bit/24bit)</option>
+                    <option value="ico">ICO アイコン</option>
+                    <option value="bytes">C言語配列 (バイト列)</option>
+                </select>
+
+                <div class="byte-format hidden">
+                    <label for="notationMode">配列の進数モード</label>
+                    <select id="notationMode">
+                        <option value="bin" selected>2進数 (0b00000000)</option>
+                        <option value="oct">8進数 (000)</option>
+                        <option value="hex">16進数 (0x00)</option>
+                    </select>
+                </div>
+                <button id="btnExport" class="btn-export">エクスポート</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/exporter.js"></script>
+    <script src="js/tools.js"></script>
+    <script src="js/bitmap.js"></script>
+</body>
+
+</html>
