@@ -173,14 +173,24 @@ class ImageExporter {
         if (colorMode === 'mono' && width % 8 !== 0) {
             for (let y = 0; y < height; y++) {
                 out += "    "
-                for (let x = 0; x < width; x++) {
+                let currentByte = 0
+                let x = 0
+                for (; x < width; x++) {
                     const idx = (y * width + x) * 4
                     const bit = ((data[idx] + data[idx + 1] + data[idx + 2]) / 3 < 128) ? 0 : 1
-                    out += formatNumber(bit) + ", "
+                    currentByte = (currentByte << 1) | bit
+
+                    if (x % 8 === 7 || x === width - 1) {
+                        out += formatNumber(currentByte) + ", "
+                        currentByte = 0
+                    }
+                }
+                if (x % 8 === 0){
+                    out += formatNumber(currentByte)
                 }
                 out += "\n"
             }
-        } 
+        }
         // モノクロモードかつ幅が8の倍数の場合は、従来どおり8ピクセルを1バイトにパック
         else if (colorMode === 'mono' && width % 8 === 0) {
             for (let y = 0; y < height; y++) {
@@ -190,7 +200,7 @@ class ImageExporter {
                     const idx = (y * width + x) * 4
                     const bit = ((data[idx] + data[idx + 1] + data[idx + 2]) / 3 < 128) ? 0 : 1
                     currentByte |= (bit << (7 - (x % 8)))
-                    
+
                     if (x % 8 === 7 || x === width - 1) {
                         out += formatNumber(currentByte) + ", "
                         currentByte = 0
@@ -198,7 +208,7 @@ class ImageExporter {
                 }
                 out += "\n"
             }
-        } 
+        }
         // フルカラー（グレースケール変換出力）の場合
         else {
             for (let y = 0; y < height; y++) {
