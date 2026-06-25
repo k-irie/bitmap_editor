@@ -17,7 +17,7 @@ class DrawTool {
      * @param {number} y キャンバス上のY座標
      * @param {string} color 描画する色（HEX文字列）
      */
-    onMouseDown(x, y, color) {}
+    onMouseDown(x, y, color) { }
 
     /**
      * マウスが移動したときの処理
@@ -25,12 +25,12 @@ class DrawTool {
      * @param {number} y キャンバス上のY座標
      * @param {string} color 描画する色（HEX文字列）
      */
-    onMouseMove(x, y, color) {}
+    onMouseMove(x, y, color) { }
 
     /**
      * マウスボタンが離されたときの処理
      */
-    onMouseUp() {}
+    onMouseUp() { }
 }
 
 
@@ -74,7 +74,9 @@ class LineTool extends DrawTool {
     }
 
     onMouseMove(x, y, color) {
-        if (!this.snapshot) return
+        if (!this.snapshot) {
+            return
+        }
         // 一度ドラッグ開始時点の状態に戻してから新しい直線をプレビュー描画する
         this.editor.ctx.putImageData(this.snapshot, 0, 0)
         this.drawLine(x, y, color)
@@ -86,7 +88,7 @@ class LineTool extends DrawTool {
 
     drawLine(endX, endY, color) {
         this.editor.ctx.fillStyle = color
-        
+
         // ブレゼンハムの直線アルゴリズムによるピクセルプロット
         let x0 = this.startX
         let y0 = this.startY
@@ -102,7 +104,9 @@ class LineTool extends DrawTool {
         while (true) {
             this.editor.ctx.fillRect(x0, y0, 1, 1)
 
-            if (x0 === x1 && y0 === y1) break
+            if (x0 === x1 && y0 === y1) {
+                break
+            }
             const e2 = 2 * err
             if (e2 > -dy) {
                 err -= dy
@@ -158,10 +162,18 @@ class FloodFillTool extends DrawTool {
                 data[idx + 2] = fillB
                 data[idx + 3] = fillA
 
-                if (cx + 1 < width) queue.push([cx + 1, cy])
-                if (cx - 1 >= 0) queue.push([cx - 1, cy])
-                if (cy + 1 < height) queue.push([cx, cy + 1])
-                if (cy - 1 >= 0) queue.push([cx, cy - 1])
+                if (cx + 1 < width) {
+                    queue.push([cx + 1, cy])
+                }
+                if (cx - 1 >= 0) {
+                    queue.push([cx - 1, cy])
+                }
+                if (cy + 1 < height) {
+                    queue.push([cx, cy + 1])
+                }
+                if (cy - 1 >= 0) {
+                    queue.push([cx, cy - 1])
+                }
             }
         }
 

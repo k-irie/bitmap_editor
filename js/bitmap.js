@@ -92,25 +92,33 @@ class BitmapEditor {
         })
 
         this.canvas.addEventListener('mousedown', (e) => {
-            if (e.ctrlKey) return
+            if (e.ctrlKey) {
+                return
+            }
             if (e.button === 0 || e.button === 2) {
                 this.drawingButton = e.button
                 const { x, y } = this.getCanvasCoords(e)
                 if (this.isValidCoords(x, y)) {
                     const activeTool = this.tools[this.currentToolKey]
-                    if (activeTool) activeTool.onMouseDown(x, y, this.getTargetColor())
+                    if (activeTool) {
+                        activeTool.onMouseDown(x, y, this.getTargetColor())
+                    }
                 }
             }
         })
 
         this.canvas.addEventListener('mousemove', (e) => {
-            if (e.ctrlKey) { this.drawingButton = -1; return }
+            if (e.ctrlKey) {
+                this.drawingButton = -1; return
+            }
             this.updateCoords(e)
             if (this.drawingButton !== -1) {
                 const { x, y } = this.getCanvasCoords(e)
                 if (this.isValidCoords(x, y)) {
                     const activeTool = this.tools[this.currentToolKey]
-                    if (activeTool) activeTool.onMouseMove(x, y, this.getTargetColor())
+                    if (activeTool) {
+                        activeTool.onMouseMove(x, y, this.getTargetColor())
+                    }
                 }
             }
         })
@@ -122,12 +130,16 @@ class BitmapEditor {
         window.addEventListener('mouseup', () => {
             this.drawingButton = -1
             const activeTool = this.tools[this.currentToolKey]
-            if (activeTool) activeTool.onMouseUp()
+            if (activeTool) {
+                activeTool.onMouseUp()
+            }
         })
 
         this.canvas.addEventListener('contextmenu', (e) => {
             e.preventDefault()
-            if (e.ctrlKey) this.showContextMenu(e.clientX, e.clientY)
+            if (e.ctrlKey) {
+                this.showContextMenu(e.clientX, e.clientY)
+            }
         })
     }
 
@@ -161,7 +173,9 @@ class BitmapEditor {
 
     showContextMenu(x, y) {
         const oldMenu = document.getElementById('customContextMenu')
-        if (oldMenu) oldMenu.remove()
+        if (oldMenu) {
+            oldMenu.remove()
+        }
 
         const menu = document.createElement('div')
         menu.id = 'customContextMenu'
@@ -216,7 +230,9 @@ class BitmapEditor {
             data[i] = 255 - data[i]
             data[i + 1] = 255 - data[i + 1]
             data[i + 2] = 255 - data[i + 2]
-            if (this.colorMode === 'mono') data[i + 3] = 255
+            if (this.colorMode === 'mono') {
+                data[i + 3] = 255
+            }
         }
         this.ctx.putImageData(imgData, 0, 0)
         this.syncRealSizePreview()
@@ -286,12 +302,16 @@ class BitmapEditor {
 
     getTargetColor() {
         let color = (this.drawingButton === 0) ? this.foregroundColor : this.backgroundColor
-        if (this.colorMode === 'mono') color = this.getClosestMonoColor(color)
+        if (this.colorMode === 'mono') {
+            color = this.getClosestMonoColor(color)
+        }
         return color
     }
 
     hexToRgba(hex) {
-        if (hex.startsWith('rgba')) return [255, 255, 255, 0]
+        if (hex.startsWith('rgba')) {
+            return [255, 255, 255, 0]
+        }
         const r = parseInt(hex.slice(1, 3), 16)
         const g = parseInt(hex.slice(3, 5), 16)
         const b = parseInt(hex.slice(5, 7), 16)
@@ -306,8 +326,12 @@ class BitmapEditor {
             div.setAttribute('data-color', color.toUpperCase())
             div.style.backgroundColor = color
 
-            if (color === this.foregroundColor) div.classList.add('active-fg')
-            if (color === this.backgroundColor) div.classList.add('active-bg')
+            if (color === this.foregroundColor) {
+                div.classList.add('active-fg')
+            }
+            if (color === this.backgroundColor) {
+                div.classList.add('active-bg')
+            }
 
             div.addEventListener('click', () => {
                 this.foregroundColor = color
@@ -329,8 +353,12 @@ class BitmapEditor {
                         let pickedColor = e.target.value
                         this.currentPalette[index] = pickedColor
                         div.style.backgroundColor = pickedColor
-                        if (this.foregroundColor === color) this.foregroundColor = pickedColor
-                        if (this.backgroundColor === color) this.backgroundColor = pickedColor
+                        if (this.foregroundColor === color) {
+                            this.foregroundColor = pickedColor
+                        }
+                        if (this.backgroundColor === color) {
+                            this.backgroundColor = pickedColor
+                        }
                         this.setupPalette()
                         this.updateIndicators()
                     }
@@ -347,7 +375,7 @@ class BitmapEditor {
             byte_format.classList.remove('hidden')
         } else {
             // if (!byte_format.classList.contains('hidden')) {
-                byte_format.classList.add('hidden')
+            byte_format.classList.add('hidden')
             // }
         }
     }

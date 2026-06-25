@@ -12,8 +12,12 @@ class ImageExporter {
         URL.revokeObjectURL(link.href)
     }
 
-    static write16(view, offset, value) { view.setUint16(offset, value, true) }
-    static write32(view, offset, value) { view.setUint32(offset, value, true) }
+    static write16(view, offset, value) {
+        view.setUint16(offset, value, true)
+    }
+    static write32(view, offset, value) {
+        view.setUint32(offset, value, true)
+    }
 
     static exportBMP(ctx, width, height, colorMode, filename) {
         const imgData = ctx.getImageData(0, 0, width, height)
@@ -185,7 +189,7 @@ class ImageExporter {
                         currentByte = 0
                     }
                 }
-                if (x % 8 === 0){
+                if (x % 8 === 0) {
                     out += formatNumber(currentByte)
                 }
                 out += "\n"
