@@ -40,7 +40,7 @@ class BitmapEditor {
             this.env = {
                 editor: { defaultWidth: 16, defaultHeight: 16, defaultScale: 10, minSize: 1, maxSize: 128, maxZoom: 50 },
                 palettes: { full: ["#000000", "#ffffff"], mono: ["#000000", "#ffffff"] },
-                export: { defaultBmpFilename: "bitmap.bmp", defaultIcoFilename: "bitmap.ico", defaultPngFilename: "bitmap.png", defaultTextFilename: "bitmap_array.txt" }
+                export: { defaultBmpFilename: "bitmap.bmp", defaultIcoFilename: "bitmap.ico", defaultPngFilename: "bitmap.png", defaultTextFilename: "bitmap_array.h" }
             }
         }
 
